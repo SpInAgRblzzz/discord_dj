@@ -1,4 +1,5 @@
 const { Client } = require("discord.js");
+const ytdl = require("ytdl-core");
 const { config } = require("dotenv");
 const {
 	playCommands,
@@ -41,7 +42,12 @@ bot.on("message", async (message) => {
 	if (playCommands.some(commandValidator)) {
 		const connection = await message.member.voice.channel.join();
 		//const dispatcher = connection.play("/sample.mp3");
-		connection.play("sample.mp3", { volume: 0.3 });
+		//connection.play("sample.mp3", { volume: 0.3 });
+		connection.play(
+			ytdl("https://www.youtube.com/watch?v=ZlAU_w7-Xp8", {
+				filter: "audioonly",
+			})
+		);
 	}
 
 	//leave command
