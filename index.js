@@ -1,5 +1,6 @@
 const { Client } = require("discord.js");
 const ytdl = require("ytdl-core");
+
 const { config } = require("dotenv");
 config({
 	path: `${__dirname}/.env`,
@@ -48,7 +49,6 @@ bot.on("message", async (message) => {
 	if (playCommands.some(commandValidator)) {
 		const connection = await message.member.voice.channel.join();
 		//const dispatcher = connection.play("/sample.mp3");
-		//connection.play("sample.mp3", { volume: 0.3 });
 
 		////youtube serch
 		youtubeSearch(args.join(" "), youtubeSearchOptions, function (
