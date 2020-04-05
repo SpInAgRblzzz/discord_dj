@@ -1,8 +1,8 @@
-const { Client } = require("discord.js");
+const { bot } = require("discord.js");
 const { config } = require("dotenv");
 const { playCommands, validateCommand } = require("./src/commands");
 
-const client = new Client({
+const bot = new bot({
 	disableEveryone: true,
 });
 
@@ -10,10 +10,10 @@ config({
 	path: __dirname + "/.env",
 });
 
-client.on("ready", () => {
-	console.log(`Yo! Ma name is ${client.user.username}`);
+bot.on("ready", () => {
+	console.log(`Yo! Ma name is ${bot.user.username}`);
 
-	client.user.setPresence({
+	bot.user.setPresence({
 		status: "online",
 		game: {
 			name: "Getting developed",
@@ -22,7 +22,7 @@ client.on("ready", () => {
 	});
 });
 
-client.on("message", async (message) => {
+bot.on("message", async (message) => {
 	const prefix = "!";
 
 	if (message.author.bot) return;
@@ -44,4 +44,4 @@ client.on("message", async (message) => {
 	}
 });
 
-client.login(process.env.TOKEN);
+bot.login(process.env.TOKEN);
