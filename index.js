@@ -1,6 +1,13 @@
 const { Client } = require("discord.js");
 const ytdl = require("ytdl-core");
 const { config } = require("dotenv");
+
+const youtubeSearch = require("youtube-search");
+const youtubeSearchOptions = {
+	maxResults: 1,
+	key: "place for a key",
+};
+
 const {
 	playCommands,
 	leaveCommands,
@@ -43,11 +50,25 @@ bot.on("message", async (message) => {
 		const connection = await message.member.voice.channel.join();
 		//const dispatcher = connection.play("/sample.mp3");
 		//connection.play("sample.mp3", { volume: 0.3 });
-		connection.play(
+
+		////youtube serch
+		youtubeSearch(args.join(" "), youtubeSearchOptions, function (
+			err,
+			results
+		) {
+			if (err) return console.log(err);
+			connection.play(
+				ytdl(results[0].link, {
+					filter: "audioonly",
+				})
+			);
+			console.log(results);
+		});
+		/* connection.play(
 			ytdl("https://www.youtube.com/watch?v=SNCx4n2m5_o", {
 				filter: "audioonly",
 			})
-		);
+		); */
 	}
 
 	//leave command
