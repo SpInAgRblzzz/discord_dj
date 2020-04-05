@@ -1,8 +1,12 @@
-const { bot } = require("discord.js");
+const { Client } = require("discord.js");
 const { config } = require("dotenv");
-const { playCommands, validateCommand } = require("./src/commands");
+const {
+	playCommands,
+	leaveCommands,
+	getCommandValidator,
+} = require("./src/commands");
 
-const bot = new bot({
+const bot = new Client({
 	disableEveryone: true,
 });
 
@@ -31,15 +35,17 @@ bot.on("message", async (message) => {
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
 	const comand = args.shift().toLowerCase();
+	const commandValidator = getCommandValidator(comand);
 
 	//play command
-	if (playCommands.some(validateCommand(comand))) {
+	if (playCommands.some(commandValidator)) {
 		const connection = await message.member.voice.channel.join();
 		//const dispatcher = connection.play("/sample.mp3");
-		connection.play("sample.mp3", { volume: 0.5 });
+		connection.play("sample.mp3", { volume: 0.3 });
 	}
 
-	if (comand === "leave") {
+	//leave command
+	if (leaveCommands.some(commandValidator)) {
 		await message.member.voice.channel.leave();
 	}
 });
