@@ -1,11 +1,14 @@
 const { Client } = require("discord.js");
 const ytdl = require("ytdl-core");
 const { config } = require("dotenv");
+config({
+	path: `${__dirname}/.env`,
+});
 
 const youtubeSearch = require("youtube-search");
 const youtubeSearchOptions = {
 	maxResults: 1,
-	key: "place for a key",
+	key: process.env.YOUTUBE_KEY,
 };
 
 const {
@@ -16,10 +19,6 @@ const {
 
 const bot = new Client({
 	disableEveryone: true,
-});
-
-config({
-	path: `${__dirname}/.env`,
 });
 
 bot.on("ready", () => {
