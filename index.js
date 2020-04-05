@@ -1,6 +1,6 @@
 const { Client } = require("discord.js");
 const { config } = require("dotenv");
-const { playCommands, matchCommand } = require("./src/commands");
+const { playCommands, validateCommand } = require("./src/commands");
 
 const client = new Client({
 	disableEveryone: true,
@@ -32,10 +32,11 @@ client.on("message", async (message) => {
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
 	const comand = args.shift().toLowerCase();
 
-	if (playCommands.some(matchCommand(comand))) {
+	//play command
+	if (playCommands.some(validateCommand(comand))) {
 		const connection = await message.member.voice.channel.join();
 		//const dispatcher = connection.play("/sample.mp3");
-		connection.play("sample.mp3", { volume: 1 });
+		connection.play("sample.mp3", { volume: 0.5 });
 	}
 
 	if (comand === "leave") {

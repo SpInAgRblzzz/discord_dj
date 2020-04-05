@@ -1,5 +1,5 @@
 exports.playCommands = ["play", "go", "start"];
-exports.matchCommand = function matchCommand(command) {
+exports.validateCommand = function validateCommand(command) {
 	return function (item) {
 		return item === command;
 	};
