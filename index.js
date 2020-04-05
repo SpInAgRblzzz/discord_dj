@@ -44,7 +44,7 @@ bot.on("message", async (message) => {
 		//const dispatcher = connection.play("/sample.mp3");
 		//connection.play("sample.mp3", { volume: 0.3 });
 		connection.play(
-			ytdl("https://www.youtube.com/watch?v=ZlAU_w7-Xp8", {
+			ytdl("https://www.youtube.com/watch?v=SNCx4n2m5_o", {
 				filter: "audioonly",
 			})
 		);
