@@ -19,7 +19,7 @@ const bot = new Client({
 });
 
 config({
-	path: __dirname + "/.env",
+	path: `${__dirname}/.env`,
 });
 
 bot.on("ready", () => {
