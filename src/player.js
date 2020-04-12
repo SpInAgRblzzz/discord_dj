@@ -23,12 +23,12 @@ class Player {
 		);
 	}
 
-	async leave() {
+	async leave(message) {
 		if (!this.connection) {
 			console.log("а я и не заходил");
 			return;
 		}
-		await this.connection.leave();
+		await message.member.voice.channel.leave();
 
 		console.log(`after leave connection === ${this.connection}`);
 	}

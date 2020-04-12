@@ -79,7 +79,7 @@ bot.on("message", async (message) => {
 
 	//leave command
 	if (leaveCommands.some(commandValidator)) {
-		player.leave();
+		player.leave(message);
 	}
 });
 
