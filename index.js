@@ -8,9 +8,13 @@ config({
 
 const youtubeSearch = require("youtube-search");
 const youtubeSearchOptions = {
-	maxResults: 1,
+	maxResults: 5,
 	key: process.env.YOUTUBE_KEY,
 };
+
+const { Player } = require("./src/player");
+console.log(Player);
+const player = new Player();
 
 const {
 	playCommands,
@@ -41,13 +45,16 @@ bot.on("message", async (message) => {
 	if (!message.guild) return;
 	if (!message.content.startsWith(prefix)) return;
 
+	let connection = null;
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
 	const comand = args.shift().toLowerCase();
 	const commandValidator = getCommandValidator(comand);
 
 	//play command
 	if (playCommands.some(commandValidator)) {
-		const connection = await message.member.voice.channel.join();
+		player.play(message, args.join(" "));
+
+		/* if(true){connection = await message.member.voice.channel.join();
 		//const dispatcher = connection.play("/sample.mp3");
 
 		////youtube serch
@@ -62,7 +69,7 @@ bot.on("message", async (message) => {
 				})
 			);
 			console.log(results);
-		});
+		})}; */
 		/* connection.play(
 			ytdl("https://www.youtube.com/watch?v=SNCx4n2m5_o", {
 				filter: "audioonly",
@@ -72,7 +79,7 @@ bot.on("message", async (message) => {
 
 	//leave command
 	if (leaveCommands.some(commandValidator)) {
-		await message.member.voice.channel.leave();
+		player.leave();
 	}
 });
 
