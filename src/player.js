@@ -10,9 +10,9 @@ class Player {
 
 	connection = null;
 
-	async play(message, search) {
+	async play(channel, search) {
 		this.connection = !this.connection
-			? await message.member.voice.channel.join()
+			? await channel.join()
 			: this.connection;
 
 		////youtube search
@@ -23,12 +23,13 @@ class Player {
 		);
 	}
 
-	async leave(message) {
+	async leave(channel) {
 		if (!this.connection) {
 			console.log("а я и не заходил");
 			return;
 		}
-		await message.member.voice.channel.leave();
+		await channel.leave();
+		this.connection = null;
 
 		console.log(`after leave connection === ${this.connection}`);
 	}

@@ -45,14 +45,14 @@ bot.on("message", async (message) => {
 	if (!message.guild) return;
 	if (!message.content.startsWith(prefix)) return;
 
-	let connection = null;
+	let channel = message.member.voice.channel;
 	const args = message.content.slice(prefix.length).trim().split(/ +/g);
 	const comand = args.shift().toLowerCase();
 	const commandValidator = getCommandValidator(comand);
 
 	//play command
 	if (playCommands.some(commandValidator)) {
-		player.play(message, args.join(" "));
+		player.play(channel, args.join(" "));
 
 		/* if(true){connection = await message.member.voice.channel.join();
 		//const dispatcher = connection.play("/sample.mp3");
@@ -79,7 +79,7 @@ bot.on("message", async (message) => {
 
 	//leave command
 	if (leaveCommands.some(commandValidator)) {
-		player.leave(message);
+		player.leave(channel);
 	}
 });
 
