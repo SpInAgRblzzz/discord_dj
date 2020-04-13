@@ -55,28 +55,6 @@ bot.on("message", async (message) => {
 	//play command
 	if (playCommands.some(commandValidator)) {
 		player.play(channel, args.join(" "));
-
-		/* if(true){connection = await message.member.voice.channel.join();
-		//const dispatcher = connection.play("/sample.mp3");
-
-		////youtube serch
-		youtubeSearch(args.join(" "), youtubeSearchOptions, function (
-			err,
-			results
-		) {
-			if (err) return console.log(err);
-			connection.play(
-				ytdl(results[0].link, {
-					filter: "audioonly",
-				})
-			);
-			console.log(results);
-		})}; */
-		/* connection.play(
-			ytdl("https://www.youtube.com/watch?v=SNCx4n2m5_o", {
-				filter: "audioonly",
-			})
-		); */
 	}
 
 	//leave command
