@@ -60,10 +60,21 @@ class Player {
 		console.log(`after leave connection === ${this.connection}`);
 	}
 
-			console.log("no results");
+	async pause() {
+		if (!this.connection) {
+			console.log("nothing to pause");
 			return;
 		}
+		this.connection.pause();
+	}
 
+	async resume() {
+		if (!this.connection) {
+			console.log("nothing to resume");
+			return;
+		}
+		this.connection.resume();
+	}
 }
 
 module.exports.Player = Player;

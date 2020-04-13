@@ -19,6 +19,8 @@ const player = new Player();
 const {
 	playCommands,
 	leaveCommands,
+	pauseCommands,
+	resumeCommands,
 	getCommandValidator,
 } = require("./src/commands");
 
@@ -80,6 +82,16 @@ bot.on("message", async (message) => {
 	//leave command
 	if (leaveCommands.some(commandValidator)) {
 		player.leave(channel);
+	}
+
+	//pause command
+	if (pauseCommands.some(commandValidator)) {
+		player.pause();
+	}
+
+	//resume command
+	if (resumeCommands.some(commandValidator)) {
+		player.resume();
 	}
 });
 
