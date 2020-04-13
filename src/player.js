@@ -41,6 +41,11 @@ function handleSearch(connection) {
 	return function (err, results) {
 		if (err) return console.log(err);
 
+		if (results.length === 0) {
+			console.log("no results");
+			return;
+		}
+
 		const link = results.find((searchResult) =>
 			searchResult.link.includes("/watch")
 		).link;
