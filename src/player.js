@@ -9,6 +9,7 @@ class Player {
 	constructor() {}
 
 	connection = null;
+	isPaused = false;
 
 	async play(channel, search) {
 		this.connection = !this.connection
@@ -19,7 +20,32 @@ class Player {
 		youtubeSearch(
 			search,
 			youtubeSearchOptions,
-			handleSearch(this.connection)
+			function (err, results) {
+				if (err) return console.log(err);
+
+				if (results.length === 0) {
+					console.log("no results");
+					return;
+				}
+
+				const link = results.find((searchResult) =>
+					searchResult.link.includes("/watch")
+				).link;
+				this.connection = this.connection
+					.play(
+						ytdl(link, {
+							filter: "audioonly",
+						})
+					)
+					.on(
+						"finish",
+						function () {
+							this.connection = null;
+							console.log("Finished playing!");
+						}.bind(this)
+					);
+				console.log(link);
+			}.bind(this)
 		);
 	}
 
@@ -33,27 +59,11 @@ class Player {
 
 		console.log(`after leave connection === ${this.connection}`);
 	}
-}
 
-module.exports.Player = Player;
-
-function handleSearch(connection) {
-	return function (err, results) {
-		if (err) return console.log(err);
-
-		if (results.length === 0) {
 			console.log("no results");
 			return;
 		}
 
-		const link = results.find((searchResult) =>
-			searchResult.link.includes("/watch")
-		).link;
-		connection.play(
-			ytdl(link, {
-				filter: "audioonly",
-			})
-		);
-		console.log(link);
-	};
 }
+
+module.exports.Player = Player;
