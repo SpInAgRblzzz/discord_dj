@@ -31,7 +31,8 @@ class Player {
 				const link = results.find((searchResult) =>
 					searchResult.link.includes("/watch")
 				).link;
-				this.connection = this.connection
+
+				this.connection
 					.play(
 						ytdl(link, {
 							filter: "audioonly",
