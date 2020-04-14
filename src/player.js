@@ -3,11 +3,14 @@ const youtubeSearchOptions = {
 	maxResults: 5,
 	key: process.env.YOUTUBE_KEY,
 };
+
 const ytdl = require("ytdl-core");
+const { LocalPlaylist } = require("./localPlaylist");
 
 class Player {
 	connection = null;
 	isPaused = false;
+	localPlaylist = new LocalPlaylist();
 
 	async play(channel, search) {
 		this.connection = !this.connection
@@ -30,19 +33,8 @@ class Player {
 					searchResult.link.includes("/watch")
 				).link;
 
-				this.connection
-					.play(
-						ytdl(link, {
-							filter: "audioonly",
-						})
-					)
-					.on(
-						"finish",
-						function () {
-							this.connection = null;
-							console.log("Finished playing!");
-						}.bind(this)
-					);
+				handleAudioBroadcast.bind(this)(link);
+
 				console.log(link);
 			}.bind(this)
 		);
@@ -77,3 +69,19 @@ class Player {
 }
 
 module.exports.Player = Player;
+
+function handleAudioBroadcast(link) {
+	this.connection
+		.play(
+			ytdl(link, {
+				filter: "audioonly",
+			})
+		)
+		.on(
+			"finish",
+			function () {
+				this.connection = null;
+				console.log("Finished playing!");
+			}.bind(this)
+		);
+}
