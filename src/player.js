@@ -6,8 +6,6 @@ const youtubeSearchOptions = {
 const ytdl = require("ytdl-core");
 
 class Player {
-	constructor() {}
-
 	connection = null;
 	isPaused = false;
 
