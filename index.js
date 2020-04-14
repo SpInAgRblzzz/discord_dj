@@ -1,16 +1,9 @@
 const { Client } = require("discord.js");
-const ytdl = require("ytdl-core");
 
 const { config } = require("dotenv");
 config({
 	path: `${__dirname}/.env`,
 });
-
-const youtubeSearch = require("youtube-search");
-const youtubeSearchOptions = {
-	maxResults: 5,
-	key: process.env.YOUTUBE_KEY,
-};
 
 const { Player } = require("./src/player");
 console.log(Player);
