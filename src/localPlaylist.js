@@ -18,13 +18,24 @@ class LocalPlaylist {
 		if (this.first === this.last) {
 			this.first = null;
 			this.last = null;
+			return;
 		}
 		this.first = this.first.next;
+	}
+
+	getNext() {
+		try {
+			return this.first.link;
+		} finally {
+			this.goNext();
+		}
 	}
 }
 
 class PlaylistItem {
-	constructor(link) {}
+	constructor(link) {
+		this.link = link;
+	}
 }
 
 module.exports.LocalPlaylist = LocalPlaylist;
