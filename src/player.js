@@ -91,7 +91,7 @@ function handleAudioBroadcast(link, channel) {
 					} else {
 						console.log("something is in playlist");
 						handleAudioBroadcast.bind(this)(
-							this.localPlaylist.getNext(),
+							this.localPlaylist.getFirst(),
 							channel
 						);
 					}
