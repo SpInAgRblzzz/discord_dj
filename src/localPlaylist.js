@@ -23,6 +23,7 @@ class LocalPlaylist {
 		this.first = this.first.next;
 	}
 
+	/**TRASH**/
 	getFirst() {
 		try {
 			return this.first.link;
