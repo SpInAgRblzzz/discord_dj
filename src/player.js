@@ -3,13 +3,14 @@ const youtubeSearchOptions = {
 	maxResults: 5,
 	key: process.env.YOUTUBE_KEY,
 };
+
 const ytdl = require("ytdl-core");
+const { LocalPlaylist } = require("./localPlaylist");
 
 class Player {
-	constructor() {}
-
 	connection = null;
-	isPaused = false;
+	localPlaylist = new LocalPlaylist();
+	isPlaying = false;
 
 	async play(channel, search) {
 		this.connection = !this.connection
@@ -31,20 +32,10 @@ class Player {
 				const link = results.find((searchResult) =>
 					searchResult.link.includes("/watch")
 				).link;
-				this.connection = this.connection
-					.play(
-						ytdl(link, {
-							filter: "audioonly",
-						})
-					)
-					.on(
-						"finish",
-						function () {
-							this.connection = null;
-							console.log("Finished playing!");
-						}.bind(this)
-					);
-				console.log(link);
+
+				handleAudioBroadcast.bind(this)(link, channel);
+
+				//console.log(link);
 			}.bind(this)
 		);
 	}
@@ -56,8 +47,9 @@ class Player {
 		}
 		await channel.leave();
 		this.connection = null;
+		this.isPlaying = false;
 
-		console.log(`after leave connection === ${this.connection}`);
+		//console.log(`after leave connection === ${this.connection}`);
 	}
 
 	async pause() {
@@ -78,3 +70,36 @@ class Player {
 }
 
 module.exports.Player = Player;
+
+function handleAudioBroadcast(link, channel) {
+	if (!this.isPlaying) {
+		console.log("player is not active. starting broadcast");
+		this.connection
+			.play(
+				ytdl(link, {
+					filter: "audioonly",
+				})
+			)
+			.on(
+				"finish",
+				function () {
+					console.log("finished palying");
+					this.isPlaying = false;
+					if (!this.localPlaylist.first) {
+						console.log("playlist is empty. leaving");
+						this.leave(channel);
+					} else {
+						console.log("something is in playlist");
+						handleAudioBroadcast.bind(this)(
+							this.localPlaylist.getFirst(),
+							channel
+						);
+					}
+				}.bind(this)
+			);
+		this.isPlaying = true;
+	} else {
+		console.log("adding to playlist");
+		this.localPlaylist.add(link);
+	}
+}
